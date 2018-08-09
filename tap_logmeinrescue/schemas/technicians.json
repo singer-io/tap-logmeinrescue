@@ -1,0 +1,35 @@
+{
+  "type": "object",
+  "inclusion": "available",
+  "selected-by-default": false,
+  "properties": {
+    "nodeid": {
+      "type": ["integer"],
+      "inclusion": "automatic"
+    },
+    "type": {
+      "type": ["null", "string"],
+      "inclusion": "automatic"
+    },
+    "parentid": {
+      "type": ["null", "integer"],
+      "inclusion": "available"
+    },
+    "name": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "email": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "description": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "status": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    }
+  }
+}

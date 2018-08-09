@@ -1,0 +1,72 @@
+{
+  "type": "object",
+  "inclusion": "available",
+  "selected-by-default": false,
+  "properties": {
+    "session_id": {
+      "type": ["integer"],
+      "inclusion": "automatic"
+    },
+    "time_of_transfer": {
+      "type": ["null", "string"],
+      "format": "date-time",
+      "inclusion": "available"
+    },
+    "waiting_time": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "transferred_by_-_technician_id": {
+      "type": ["null", "integer"],
+      "inclusion": "available"
+    },
+    "transferred_by": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "transferred_from__technician_channel_id": {
+      "type": ["null", "integer"],
+      "inclusion": "available"
+    },
+    "transferred_from": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "transferred_to__technician_channel_id": {
+      "type": ["null", "integer"],
+      "inclusion": "available"
+    },
+    "transferred_to": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "transfer_comment": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "time_in_transfer": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "transferred_from__technician_group_id": {
+      "type": ["null", "integer"],
+      "inclusion": "available"
+    },
+    "transferred_from__technician_group": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "transferred_to__technician_group_id": {
+      "type": ["null", "integer"],
+      "inclusion": "available"
+    },
+    "transferred_to__technician_group": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "chatlog": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    }
+  }
+}

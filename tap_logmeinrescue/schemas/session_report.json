@@ -1,0 +1,122 @@
+{
+  "type": "object",
+  "inclusion": "available",
+  "selected-by-default": false,
+  "properties": {
+    "session_id": {
+      "type": ["integer"],
+      "inclusion": "automatic"
+    },
+    "start_time": {
+      "type": ["null", "string"],
+      "format": "date-time",
+      "inclusion": "available"
+    },
+    "end_time": {
+      "type": ["null", "string"],
+      "format": "date-time",
+      "inclusion": "available"
+    },
+    "last_action_time": {
+      "type": ["null", "string"],
+      "format": "date-time",
+      "inclusion": "available"
+    },
+    "technician_name": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "technician_id": {
+      "type": ["null", "integer"],
+      "inclusion": "available"
+    },
+    "session_type": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "status": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "tracking_id": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "customer_ip": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "device_id": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "incident_tools_used": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "resolved_unresolved": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "channel_id": {
+      "type": ["null", "integer"],
+      "inclusion": "available"
+    },
+    "channel_name": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "calling_card": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "connecting_time": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "waiting_time": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "total_time": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "active_time": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "work_time": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "hold_time": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "time_in_transfer": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "rebooting_time": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "reconnecting_time": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "platform": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "technician_email": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    },
+    "browser_type": {
+      "type": ["null", "string"],
+      "inclusion": "available"
+    }
+  }
+}
