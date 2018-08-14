@@ -2,5 +2,31 @@
   "type": "object",
   "inclusion": "available",
   "selected-by-default": false,
-  "properties": {}
+  "properties": {
+    "session_id": {
+      "type": ["integer"],
+      "inclusion": "automatic"
+    },
+    "source": {
+      "type": ["string", "null"],
+      "inclusion": "available"
+    },
+    "date": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "inclusion": "available"
+    },
+    "technician_name": {
+      "type": ["string", "null"],
+      "inclusion": "available"
+    },
+    "technician_id": {
+      "type": ["string", "null"],
+      "inclusion": "available"
+    },
+    "technician_email": {
+      "type": ["string", "null"],
+      "inclusion": "available"
+    }
+  }
 }
