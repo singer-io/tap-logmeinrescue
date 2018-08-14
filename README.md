@@ -8,10 +8,10 @@ It:
 
 - Generates a catalog of available data in LogMeIn Rescue
 - Extracts the following resources:
-  - [Technicians](https://secure.logmeinrescue.com/welcome/webhelp/EN/RescueAPI/API/API_Rescue_getHierarchy_v2.html) ([source](../blob/master/tap_logmeinrescue/streams/technicians.py)): It pulls the entire list of technicians each time it runs.
-  - [Session Report](https://secure.logmeinrescue.com/welcome/webhelp/EN/RescueAPI/API/API_Rescue_getReport_output_reports.html) ([source](../blob/master/tap_logmeinrescue/streams/session_report.py)): It pulls all of the session report records, keeping track of where it left off each time. The reports belowuse the same pagination and state strategy.
-  - [Technician Survey Report](https://secure.logmeinrescue.com/welcome/webhelp/EN/RescueAPI/API/API_Rescue_getReport_output_reports.html) ([source](../blob/master/tap_logmeinrescue/streams/technician_survey_report.py))
-  - [Transferred Sessions Extended Report](https://secure.logmeinrescue.com/welcome/webhelp/EN/RescueAPI/API/API_Rescue_getReport_output_reports.html) ([source](../blob/master/tap_logmeinrescue/streams/transferred_sessions_extended_report.py))
+  - [Technicians](https://secure.logmeinrescue.com/welcome/webhelp/EN/RescueAPI/API/API_Rescue_getHierarchy_v2.html) ([source](../master/tap_logmeinrescue/streams/technicians.py)): It pulls the entire list of technicians each time it runs.
+  - [Session Report](https://secure.logmeinrescue.com/welcome/webhelp/EN/RescueAPI/API/API_Rescue_getReport_output_reports.html) ([source](../master/tap_logmeinrescue/streams/session_report.py)): It pulls all of the session report records, keeping track of where it left off each time. The reports belowuse the same pagination and state strategy.
+  - [Technician Survey Report](https://secure.logmeinrescue.com/welcome/webhelp/EN/RescueAPI/API/API_Rescue_getReport_output_reports.html) ([source](../master/tap_logmeinrescue/streams/technician_survey_report.py))
+  - [Transferred Sessions Extended Report](https://secure.logmeinrescue.com/welcome/webhelp/EN/RescueAPI/API/API_Rescue_getReport_output_reports.html) ([source](../master/tap_logmeinrescue/streams/transferred_sessions_extended_report.py))
 
 
 ### Quick Start
