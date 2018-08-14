@@ -14,10 +14,8 @@ setup(name='tap-logmeinrescue',
           'backoff==1.3.2',
           'requests==2.18.4',
           'funcy==1.10.1',
+          'tap-framework==0.0.1',
           'pytz',
-      ],
-      dependency_links=[
-          '-e ../tap-framework',
       ],
       entry_points='''
           [console_scripts]
