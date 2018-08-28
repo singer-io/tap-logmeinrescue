@@ -1,32 +1,24 @@
 {
   "type": "object",
-  "inclusion": "available",
-  "selected-by-default": false,
   "properties": {
     "session_id": {
-      "type": ["integer"],
-      "inclusion": "automatic"
+      "type": ["integer"]
     },
     "source": {
-      "type": ["string", "null"],
-      "inclusion": "available"
+      "type": ["string", "null"]
     },
     "date": {
       "type": ["string", "null"],
-      "format": "date-time",
-      "inclusion": "available"
+      "format": "date-time"
     },
     "technician_name": {
-      "type": ["string", "null"],
-      "inclusion": "available"
+      "type": ["string", "null"]
     },
     "technician_id": {
-      "type": ["string", "null"],
-      "inclusion": "available"
+      "type": ["string", "null"]
     },
     "technician_email": {
-      "type": ["string", "null"],
-      "inclusion": "available"
+      "type": ["string", "null"]
     }
   }
 }

@@ -1,7 +1,3 @@
-from tap_framework.streams import BaseStream
-from tap_framework.state import get_last_record_value_for_table, incorporate, \
-    save_state
-
 from tap_logmeinrescue.streams.base import BaseLogMeInRescueStream
 
 import singer
@@ -9,7 +5,7 @@ import singer
 from tap_logmeinrescue.logger import LOGGER
 
 
-class TechniciansStream(BaseStream, BaseLogMeInRescueStream):
+class TechniciansStream(BaseLogMeInRescueStream):
     TABLE = 'technicians'
     KEY_PROPERTIES = ['nodeid']
     API_METHOD = 'GET'
@@ -29,7 +25,7 @@ class TechniciansStream(BaseStream, BaseLogMeInRescueStream):
                 (k, v) = field.split(':')
                 item[k] = v
 
-            output = self.process(item)
+            output = self.transform_record(item)
 
             if output.get('type') == 'Technician':
                 to_return.append(output)

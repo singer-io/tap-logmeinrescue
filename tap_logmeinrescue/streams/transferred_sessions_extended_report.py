@@ -1,10 +1,8 @@
-from tap_framework.streams import BaseStream
 from tap_logmeinrescue.streams.base import BaseLogMeInRescueReportStream
 
 
 class TransferredSessionsExtendedReportStream(
-    BaseLogMeInRescueReportStream,
-    BaseStream
+    BaseLogMeInRescueReportStream
 ):
     TABLE = 'transferred_sessions_extended_report'
     KEY_PROPERTIES = ['session_id']
@@ -38,6 +36,6 @@ class TransferredSessionsExtendedReportStream(
                 else:
                     to_add[header[index]] = item
 
-            to_return.append(self.process(to_add))
+            to_return.append(self.transform_record(to_add))
 
         return to_return
