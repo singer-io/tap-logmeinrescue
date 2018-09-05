@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(name='tap-logmeinrescue',
       version='0.0.1',
@@ -16,4 +16,9 @@ setup(name='tap-logmeinrescue',
           [console_scripts]
           tap-logmeinrescue=tap_logmeinrescue:main
       ''',
-      packages=['tap_logmeinrescue'])
+      packages=find_packages(),
+      package_data={
+          'tap_logmeinrescue': [
+              'schemas/*.json'
+          ]
+      })
