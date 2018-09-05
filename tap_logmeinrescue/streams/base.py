@@ -5,26 +5,15 @@ import singer
 
 from dateutil.parser import parse
 
+from tap_framework.streams import BaseStream
 from tap_framework.config import get_config_start_date
-from tap_logmeinrescue.state import get_last_record_value_for_table, incorporate, \
-    save_state
+from tap_logmeinrescue.state import get_last_record_value_for_table, \
+    incorporate, save_state
 
 from tap_logmeinrescue.logger import LOGGER
 
 
-class BaseLogMeInRescueStream:
-
-    def select_keys(self, data):
-        catalog_entry = self.catalog
-        to_return = {}
-
-        for k, v in data.items():
-            schema = catalog_entry.schema.properties.get(k)
-
-            if schema.inclusion == 'automatic' or schema.selected:
-                to_return[k] = v
-
-        return to_return
+class BaseLogMeInRescueStream(BaseStream):
 
     def convert_key(self, k):
         # replace disallowed characters used in keys
@@ -42,35 +31,10 @@ class BaseLogMeInRescueStream:
 
         return to_return
 
-    def convert_types(self, data):
-        catalog_entry = self.catalog
-        to_return = {}
+    def transform_record(self, record):
+        converted = self.convert_keys(record)
 
-        for k, v in data.items():
-            schema = catalog_entry.schema.properties.get(k)
-            datatype = schema.type
-            is_datetime = schema.format == 'date-time'
-
-            if not v:
-                to_return[k] = None
-            elif is_datetime:
-                to_return[k] = parse(v).strftime('%Y-%m-%dT%H:%M:%SZ')
-            elif "integer" in datatype:
-                to_return[k] = int(v)
-            elif "number" in datatype:
-                to_return[k] = float(v)
-            else:
-                to_return[k] = v
-
-        return to_return
-
-    def process(self, data):
-        return \
-            self.convert_types(
-                self.select_keys(
-                    self.filter_keys(
-                        self.convert_keys(
-                            data))))
+        return super().transform_record(converted)
 
 
 class BaseLogMeInRescueReportStream(BaseLogMeInRescueStream):
@@ -81,12 +45,35 @@ class BaseLogMeInRescueReportStream(BaseLogMeInRescueStream):
         return 'https://secure.logmeinrescue.com/API/getReport_v2.aspx'
 
     def generate_catalog(self, custom_field_schema={}):
+        schema = self.get_schema(custom_field_schema=custom_field_schema)
+        mdata = singer.metadata.new()
+
+        mdata = singer.metadata.write(
+            mdata,
+            (),
+            'inclusion',
+            'available'
+        )
+
+        for field_name, field_schema in schema.get('properties').items():
+            inclusion = 'available'
+
+            if field_name in self.KEY_PROPERTIES:
+                inclusion = 'automatic'
+
+            mdata = singer.metadata.write(
+                mdata,
+                ('properties', field_name),
+                'inclusion',
+                inclusion
+            )
+
         return [{
             'tap_stream_id': self.TABLE,
             'stream': self.TABLE,
             'key_properties': self.KEY_PROPERTIES,
-            'schema': self.get_schema(
-                custom_field_schema=custom_field_schema)
+            'schema': schema,
+            'metadata': singer.metadata.to_list(mdata)
         }]
 
     def get_schema(self, custom_field_schema={}):
@@ -103,8 +90,7 @@ class BaseLogMeInRescueReportStream(BaseLogMeInRescueStream):
         for key in header:
             new_key = self.convert_key(key)
             to_return[new_key] = {
-                "type": ["string", "null"],
-                "inclusion": "available"
+                "type": ["string", "null"]
             }
 
         return to_return
@@ -132,7 +118,7 @@ class BaseLogMeInRescueReportStream(BaseLogMeInRescueStream):
             for index, item in enumerate(data):
                 to_add[header[index]] = item
 
-            to_return.append(self.process(to_add))
+            to_return.append(self.transform_record(to_add))
 
         return to_return
 

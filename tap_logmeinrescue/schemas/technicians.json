@@ -1,35 +1,26 @@
 {
   "type": "object",
-  "inclusion": "available",
-  "selected-by-default": false,
   "properties": {
     "nodeid": {
-      "type": ["integer"],
-      "inclusion": "automatic"
+      "type": ["integer"]
     },
     "type": {
-      "type": ["null", "string"],
-      "inclusion": "automatic"
+      "type": ["null", "string"]
     },
     "parentid": {
-      "type": ["null", "integer"],
-      "inclusion": "available"
+      "type": ["null", "integer"]
     },
     "name": {
-      "type": ["null", "string"],
-      "inclusion": "available"
+      "type": ["null", "string"]
     },
     "email": {
-      "type": ["null", "string"],
-      "inclusion": "available"
+      "type": ["null", "string"]
     },
     "description": {
-      "type": ["null", "string"],
-      "inclusion": "available"
+      "type": ["null", "string"]
     },
     "status": {
-      "type": ["null", "string"],
-      "inclusion": "available"
+      "type": ["null", "string"]
     }
   }
 }

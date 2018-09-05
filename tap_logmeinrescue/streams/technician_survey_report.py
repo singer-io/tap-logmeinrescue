@@ -1,8 +1,7 @@
-from tap_framework.streams import BaseStream
 from tap_logmeinrescue.streams.base import BaseLogMeInRescueReportStream
 
 
-class TechnicianSurveyReportStream(BaseLogMeInRescueReportStream, BaseStream):
+class TechnicianSurveyReportStream(BaseLogMeInRescueReportStream):
     TABLE = 'technician_survey_report'
     KEY_PROPERTIES = ['session_id']
     API_METHOD = 'GET'

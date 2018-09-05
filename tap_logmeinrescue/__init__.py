@@ -2,6 +2,7 @@ import json
 import singer
 import sys
 import tap_framework
+import tap_framework.streams
 import tap_logmeinrescue.client
 import tap_logmeinrescue.streams
 
@@ -55,7 +56,7 @@ class LogMeInRescueRunner(tap_framework.Runner):
         technicians_substreams = []
 
         for stream_catalog in self.catalog.streams:
-            if not stream_catalog.schema.selected:
+            if not tap_framework.streams.is_selected(stream_catalog):
                 LOGGER.info("'{}' is not marked selected, skipping."
                             .format(stream_catalog.stream))
                 continue

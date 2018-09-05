@@ -1,72 +1,54 @@
 {
   "type": "object",
-  "inclusion": "available",
-  "selected-by-default": false,
   "properties": {
     "session_id": {
-      "type": ["integer"],
-      "inclusion": "automatic"
+      "type": ["integer"]
     },
     "time_of_transfer": {
       "type": ["null", "string"],
-      "format": "date-time",
-      "inclusion": "available"
+      "format": "date-time"
     },
     "waiting_time": {
-      "type": ["null", "string"],
-      "inclusion": "available"
+      "type": ["null", "string"]
     },
     "transferred_by_-_technician_id": {
-      "type": ["null", "integer"],
-      "inclusion": "available"
+      "type": ["null", "integer"]
     },
     "transferred_by": {
-      "type": ["null", "string"],
-      "inclusion": "available"
+      "type": ["null", "string"]
     },
     "transferred_from__technician_channel_id": {
-      "type": ["null", "integer"],
-      "inclusion": "available"
+      "type": ["null", "integer"]
     },
     "transferred_from": {
-      "type": ["null", "string"],
-      "inclusion": "available"
+      "type": ["null", "string"]
     },
     "transferred_to__technician_channel_id": {
-      "type": ["null", "integer"],
-      "inclusion": "available"
+      "type": ["null", "integer"]
     },
     "transferred_to": {
-      "type": ["null", "string"],
-      "inclusion": "available"
+      "type": ["null", "string"]
     },
     "transfer_comment": {
-      "type": ["null", "string"],
-      "inclusion": "available"
+      "type": ["null", "string"]
     },
     "time_in_transfer": {
-      "type": ["null", "string"],
-      "inclusion": "available"
+      "type": ["null", "string"]
     },
     "transferred_from__technician_group_id": {
-      "type": ["null", "integer"],
-      "inclusion": "available"
+      "type": ["null", "integer"]
     },
     "transferred_from__technician_group": {
-      "type": ["null", "string"],
-      "inclusion": "available"
+      "type": ["null", "string"]
     },
     "transferred_to__technician_group_id": {
-      "type": ["null", "integer"],
-      "inclusion": "available"
+      "type": ["null", "integer"]
     },
     "transferred_to__technician_group": {
-      "type": ["null", "string"],
-      "inclusion": "available"
+      "type": ["null", "string"]
     },
     "chatlog": {
-      "type": ["null", "string"],
-      "inclusion": "available"
+      "type": ["null", "string"]
     }
   }
 }
