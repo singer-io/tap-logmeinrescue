@@ -115,6 +115,9 @@ class BaseLogMeInRescueReportStream(BaseLogMeInRescueStream):
             to_add = {}
             data = row.split('|')
 
+            if len(data) != len(header):
+                continue
+
             for index, item in enumerate(data):
                 to_add[header[index]] = item
 

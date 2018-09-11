@@ -55,6 +55,9 @@ class LogMeInRescueRunner(tap_framework.Runner):
         technicians_stream = None
         technicians_substreams = []
 
+        if not self.catalog:
+            return streams
+
         for stream_catalog in self.catalog.streams:
             if not tap_framework.streams.is_selected(stream_catalog):
                 LOGGER.info("'{}' is not marked selected, skipping."
