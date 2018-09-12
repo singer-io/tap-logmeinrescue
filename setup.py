@@ -3,14 +3,14 @@
 from setuptools import setup, find_packages
 
 setup(name='tap-logmeinrescue',
-      version='0.0.1',
+      version='0.0.2',
       description='Singer.io tap for extracting data from the LogMeIn Rescue API',
       author='Fishtown Analytics',
       url='http://fishtownanalytics.com',
       classifiers=['Programming Language :: Python :: 3 :: Only'],
       py_modules=['tap_logmeinrescue'],
       install_requires=[
-          'tap-framework==0.0.4',
+          'tap-framework==0.0.5',
       ],
       entry_points='''
           [console_scripts]
