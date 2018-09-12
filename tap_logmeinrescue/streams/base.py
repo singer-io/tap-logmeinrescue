@@ -184,10 +184,9 @@ class BaseLogMeInRescueReportStream(BaseLogMeInRescueStream):
 
                 if not return_first_response:
                     with singer.metrics.record_counter(endpoint=table) as ctr:
-                        for item in to_write:
-                            singer.write_records(table, to_write)
+                        singer.write_records(table, to_write)
 
-                            ctr.increment(amount=len(to_write))
+                        ctr.increment(amount=len(to_write))
 
                     self.state = incorporate(
                         self.state, table, 'technician_id', parent_id)
