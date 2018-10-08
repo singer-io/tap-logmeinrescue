@@ -11,9 +11,6 @@
     "waiting_time": {
       "type": ["null", "string"]
     },
-    "name": {
-      "type": ["null", "string"]
-    },
     "transferred_by__technician_id": {
       "type": ["null", "integer"]
     },
