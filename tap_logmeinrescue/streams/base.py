@@ -189,7 +189,7 @@ class BaseLogMeInRescueReportStream(BaseLogMeInRescueStream):
                 self.state = save_state(self.state)
 
             start_date = end_date
-            end_date = start_date + datetime.timedelta(days=7)
+            end_date = start_date + timedelta(days=7)
             technician_id = 0
 
             self.state = incorporate(
