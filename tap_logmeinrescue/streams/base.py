@@ -100,10 +100,13 @@ class BaseLogMeInRescueReportStream(BaseLogMeInRescueStream):
 
     def execute_request(self, parent_id, start_date, end_date):
         # Sets the Report Type so that we generate a specific type of report
-        self.client.make_request(
+        resp = self.client.make_request(
             'https://secure.logmeinrescue.com/API/setReportArea_v8.aspx',
             'POST',
             params={'area': self.REPORT_AREA})
+        status = resp.split("\n\n", 1)[0]
+        if status != "OK":
+            raise Exception("Error with setReportArea request: {}".format(status))
 
         LOGGER.info(
             ('Fetching session report for technician {}'
@@ -111,21 +114,28 @@ class BaseLogMeInRescueReportStream(BaseLogMeInRescueStream):
             .format(parent_id, start_date, end_date))
 
         # Sets the start and end date on the report to be generated
-        self.client.make_request(
+        resp = self.client.make_request(
             'https://secure.logmeinrescue.com/API/setReportDate_v2.aspx',  # noqa
             'POST',
             params={
-                'bdate': start_date.strftime('%-m/%-d/%Y %-H:%M:%S'),
-                'edate': end_date.strftime('%-m/%-d/%Y %-H:%M:%S')
+                'bdate': start_date.strftime('%-m/%-d/%Y %H:%M:%S'),
+                'edate': end_date.strftime('%-m/%-d/%Y %H:%M:%S')
             })
+        status = resp.split("\n\n", 1)[0]
+        if status != "OK":
+            raise Exception("Error with setReportDate request: {}".format(status))
 
         # Set the report output to XML so that it can be
         # parsed. Text output is buggy as it does not properly
         # escape the field delimeter.
+        output_type = 'XML'
         self.client.make_request(
             'https://secure.logmeinrescue.com/API/setOutput.aspx',
             'POST',
-            params={'output': 'XML'})
+            params={'output': output_type})
+        status = resp.split("\n\n", 1)[0]
+        if status != "OK":
+            raise Exception("Error with setOutput request: {}".format(status))
 
         # Calls the generate report endpoint
         raw_response = self.client.make_request(
