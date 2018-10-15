@@ -114,13 +114,12 @@ class BaseLogMeInRescueReportStream(BaseLogMeInRescueStream):
             .format(parent_id, start_date, end_date))
 
         # Sets the start and end date on the report to be generated
+        report_dates = {'bdate': start_date.strftime('%-m/%-d/%Y %H:%M:%S'),
+                        'edate': end_date.strftime('%-m/%-d/%Y %H:%M:%S')}
         resp = self.client.make_request(
             'https://secure.logmeinrescue.com/API/setReportDate_v2.aspx',  # noqa
             'POST',
-            params={
-                'bdate': start_date.strftime('%-m/%-d/%Y %H:%M:%S'),
-                'edate': end_date.strftime('%-m/%-d/%Y %H:%M:%S')
-            })
+            params=report_dates)
         status = resp.split("\n\n", 1)[0]
         if status != "OK":
             raise Exception("Error with setReportDate request: {}".format(status))
@@ -138,19 +137,19 @@ class BaseLogMeInRescueReportStream(BaseLogMeInRescueStream):
             raise Exception("Error with setOutput request: {}".format(status))
 
         # Calls the generate report endpoint
+        report_params = {'node': parent_id,
+                  'nodetype': 'NODE'}
         raw_response = self.client.make_request(
             self.get_url(),
             'GET',
-            params={
-                'node': parent_id,
-                'nodetype': 'NODE',
-            })
+            params=report_params)
 
         # The response will contain a status followed by two newlines
         status, data = raw_response.split("\n\n", 1)
 
         if status != "OK":
-            raise Exception("Error with request: {}".format(status))
+            msg = "Error retrieving report: {}\nReport Params: {}\nReport Dates: {}".format(status, report_params, report_dates)
+            raise Exception(msg)
 
         return self.parse_data(data)
 
