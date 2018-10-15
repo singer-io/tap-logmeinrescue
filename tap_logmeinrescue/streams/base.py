@@ -138,7 +138,7 @@ class BaseLogMeInRescueReportStream(BaseLogMeInRescueStream):
 
         # Calls the generate report endpoint
         report_params = {'node': parent_id,
-                  'nodetype': 'NODE'}
+                         'nodetype': 'NODE'}
         raw_response = self.client.make_request(
             self.get_url(),
             'GET',
