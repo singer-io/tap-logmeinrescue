@@ -180,9 +180,9 @@ class BaseLogMeInRescueReportStream(BaseLogMeInRescueStream):
                     continue
 
                 LOGGER.info(
-                    ('Fetching session report for technician {} ({}/{}) '
+                    ('Fetching {} for technician {} ({}/{}) '
                      'from {} to {}')
-                    .format(parent_id, index + 1, len(parent_ids), start_date, end_date))
+                    .format(table, parent_id, index + 1, len(parent_ids), start_date, end_date))
 
                 parsed_response = self.execute_request(parent_id, start_date, end_date)
 

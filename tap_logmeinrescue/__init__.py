@@ -69,9 +69,9 @@ class LogMeInRescueRunner(tap_framework.Runner):
                             self.client)
 
                     else:
-                        technicians_substreams = [available_stream(
+                        technicians_substreams.append(available_stream(
                             self.config, self.state, stream_catalog,
-                            self.client)]
+                            self.client))
 
         if technicians_stream is not None:
             technicians_stream.substreams = technicians_substreams
