@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 import funcy
 import pytz
 import singer
+from singer import utils
 import xml.etree.ElementTree as ET
 
 from dateutil.parser import parse
@@ -12,6 +13,49 @@ from tap_logmeinrescue.state import get_last_record_value_for_table, \
     incorporate, save_state
 
 from tap_logmeinrescue.logger import LOGGER
+
+def generate_date_windows(start_date, end_date=None):
+    """Yield 7 day windows from start_date to end_date.
+
+    Args:
+        start_date: A datetime object.
+        end_date: A datetime object > start_date. Defaults to utils.now()
+
+    With end_date as the default:
+    [x for x in generate_date_windows(
+                      utils.strptime_to_utc("2018-10-01T00:00:00Z"))]
+    [(datetime.datetime(2018, 10, 1, 0, 0, tzinfo=<UTC>),
+      datetime.datetime(2018, 10, 8, 0, 0, tzinfo=<UTC>)),
+     (datetime.datetime(2018, 10, 8, 0, 0, tzinfo=<UTC>),
+      datetime.datetime(2018, 10, 15, 0, 0, tzinfo=<UTC>)),
+     (datetime.datetime(2018, 10, 15, 0, 0, tzinfo=<UTC>),
+      datetime.datetime(2018, 10, 22, 0, 0, tzinfo=<UTC>)),
+     (datetime.datetime(2018, 10, 22, 0, 0, tzinfo=<UTC>),
+      datetime.datetime(2018, 10, 25, 16, 26, 10, 773289, tzinfo=<UTC>))]
+
+    With a passed end_date:
+    >>> [x for x in generate_date_windows(
+                      utils.strptime_to_utc("2018-10-01T00:00:00Z"),
+                      utils.strptime_to_utc("2018-10-25T00:00:00Z"))
+    [(datetime.datetime(2018, 10, 1, 0, 0, tzinfo=<UTC>),
+      datetime.datetime(2018, 10, 8, 0, 0, tzinfo=<UTC>)),
+     (datetime.datetime(2018, 10, 8, 0, 0, tzinfo=<UTC>),
+      datetime.datetime(2018, 10, 15, 0, 0, tzinfo=<UTC>)),
+     (datetime.datetime(2018, 10, 15, 0, 0, tzinfo=<UTC>),
+      datetime.datetime(2018, 10, 22, 0, 0, tzinfo=<UTC>)),
+     (datetime.datetime(2018, 10, 22, 0, 0, tzinfo=<UTC>),
+      datetime.datetime(2018, 10, 25, 0, 0, tzinfo=<UTC>))]"""
+    final_end_date = end_date if end_date else utils.now()
+    while True:
+        end_date = start_date + timedelta(days=7)
+        if end_date > final_end_date:
+            end_date = final_end_date
+            yield start_date, end_date
+            break
+        else:
+            yield start_date, end_date
+            start_date = end_date
+
 
 class BaseLogMeInRescueStream(BaseStream):
 
@@ -161,28 +205,27 @@ class BaseLogMeInRescueReportStream(BaseLogMeInRescueStream):
 
         start_date = get_last_record_value_for_table(
             self.state, table, 'start_date')
-        technician_id = get_last_record_value_for_table(
-            self.state, table, 'technician_id')
 
         if start_date is None:
             start_date = get_config_start_date(self.config)
         else:
             start_date = parse(start_date)
 
+        technician_id = get_last_record_value_for_table(
+            self.state, table, 'technician_id')
+
         if technician_id is None:
             technician_id = 0
 
-        end_date = start_date + timedelta(days=7)
-
-        while start_date < datetime.now(tz=pytz.UTC):
+        for start_date, end_date in generate_date_windows(start_date):
             for index, parent_id in enumerate(parent_ids):
                 if parent_id < technician_id:
                     continue
 
                 LOGGER.info(
-                    ('Fetching {} for technician {} ({}/{}) '
-                     'from {} to {}')
-                    .format(table, parent_id, index + 1, len(parent_ids), start_date, end_date))
+                    'Fetching %s for technician %s (%s/%s) from %s to %s',
+                    table, parent_id, index + 1, len(parent_ids),
+                    start_date, end_date)
 
                 parsed_response = self.execute_request(parent_id, start_date, end_date)
 
@@ -191,22 +234,26 @@ class BaseLogMeInRescueReportStream(BaseLogMeInRescueStream):
 
                     ctr.increment(amount=len(parsed_response['rows']))
 
+                # technician_id acts as a substream bookmark so that we
+                # can pick up in a single stream where we left off.
                 self.state = incorporate(
                     self.state, table, 'technician_id', parent_id)
-                self.state = incorporate(
-                    self.state, table, 'start_date', start_date)
-                self.state = save_state(self.state)
+                # There's no need to save `start_date` here. Even in the
+                # case of the first run the config start_date won't change
+                # so we're safe. It's acceptable to update start_date only
+                # after we're done the sync for this whole window.
+                save_state(self.state)
 
-            start_date = end_date
-            end_date = start_date + timedelta(days=7)
             technician_id = 0
 
             self.state = incorporate(
-                self.state, table, 'start_date', start_date)
+                self.state, table, 'start_date', end_date)
+            # Because we go through all the technicians every time we sync
+            # we need to start over by resetting the technician_id sub
+            # bookmark to 0.
             self.state = incorporate(
-                self.state, table, 'technician_id', technician_id,
-                force=True)
-            self.state = save_state(self.state)
+                self.state, table, 'technician_id', 0, force=True)
+            save_state(self.state)
 
 
     def parse_data(self, data):

@@ -12,6 +12,12 @@ setup(name='tap-logmeinrescue',
       install_requires=[
           'tap-framework==0.0.5',
       ],
+      extras_require={
+          'dev':[
+              'ipython',
+              'ipdb'
+          ]
+      },
       entry_points='''
           [console_scripts]
           tap-logmeinrescue=tap_logmeinrescue:main
