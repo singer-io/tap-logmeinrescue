@@ -5,7 +5,7 @@ class TransferredSessionsExtendedReportStream(
     BaseLogMeInRescueReportStream
 ):
     TABLE = 'transferred_sessions_extended_report'
-    KEY_PROPERTIES = ['session_id']
+    KEY_PROPERTIES = []
     API_METHOD = 'GET'
     REPORT_AREA = 16
     REQUIRES = ['technicians']
