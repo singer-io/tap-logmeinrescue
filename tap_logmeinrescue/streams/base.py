@@ -153,9 +153,18 @@ class BaseLogMeInRescueReportStream(BaseLogMeInRescueStream):
             raise Exception("Error with setReportArea request: {}".format(status))
 
         LOGGER.info(
-            ('Fetching session report for technician {}'
+            ('Fetching session report for technician {} '
              'from {} to {}')
             .format(parent_id, start_date, end_date))
+
+        # Set the timezone for the report to ensure UTC
+        resp = self.client.make_request(
+            'https://secure.logmeinrescue.com/API/setTimezone.aspx',
+            'POST',
+            params={"timezone": 0})
+        status = resp.split("\n\n", 1)[0]
+        if status != "OK":
+            raise Exception("Error with setTimezone request: {}".format(status))
 
         # Sets the start and end date on the report to be generated
         report_dates = {'bdate': start_date.strftime('%-m/%-d/%Y %H:%M:%S'),
